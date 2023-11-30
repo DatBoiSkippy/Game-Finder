@@ -8,22 +8,17 @@ const handleDomo = (e) => {
 
     const name = e.target.querySelector('#domoName').value;
     const age = e.target.querySelector('#domoAge').value;
-    const level = e.target.querySelector('#domoLevel').value;
 
-    if (!name || !age || !level) {
+    if (!name || !age) {
         helper.handleError('All fields are required!');
         return false;
     }
 
-    helper.sendPost(e.target.action, { name, age, level }, loadDomosFromServer);
+    helper.sendPost(e.target.action, {name, age}, loadDomosFromServer);
 
     return false;
 }
 
-const deleteDomo = (id) => {
-    helper.hideError();
-    console.log("Is this proccing? " + id);
-}
 const DomoForm = (props) => {
     return (
         <form id="domoForm"
@@ -33,22 +28,20 @@ const DomoForm = (props) => {
             method="POST"
             className="domoForm"
         >
-            <label htmlFor="name">Name: </label>
+            <label htmlFor="name">PlayList ID: </label>
             <input id="domoName" type="text" name="name" placeholder="Domo Name" />
             <label htmlFor="age">Age: </label>
             <input id="domoAge" type="number" min="0" name="age" />
-            <label htmlFor="level">Level: </label>
-            <input id="domoLevel" type="number" min="1" name="level" />
             <input className="makeDomoSubmit" type="submit" value="Make Domo" />
         </form>
     )
 }
 
-const DomoList = (props) => {
+const VideoList = (props) => {
     if (props.domos.length === 0) {
         return (
             <div className="domoList">
-                <h3 className="emptyDomo">No Domos Yet!</h3>
+                <h3 className="emptyDomo">No Videos Yet!</h3>
             </div>
         );
     }
@@ -78,9 +71,15 @@ const loadDomosFromServer = async () => {
     const response = await fetch('/getDomos');
     const data = await response.json();
     ReactDOM.render(
-        <DomoList domos={data.domos} />,
+        <VideoList domos={data.domos} />,
         document.getElementById('domos')
     );
+}
+
+const loadPlayList = async () => {
+    const response = await fetch('/getYoutubeAPI');
+    const data = await response.json();
+    console.log(data.videos);
 }
 
 const init = () => {
@@ -90,11 +89,11 @@ const init = () => {
     );
 
     ReactDOM.render(
-        <DomoList domos={[]} />,
+        <VideoList domos={[]} />,
         document.getElementById('domos')
     );
 
-    loadDomosFromServer();
+    loadPlayList();
 }
 
 window.onload = init;

@@ -4,6 +4,8 @@ const mid = require('./middleware');
 const router = (app) => {
     app.get('/getDomos', mid.requiresLogin, controllers.Domo.getDomos);
 
+    app.get('/getYoutubeAPI', mid.requiresLogin, controllers.Domo.getYoutubeAPI);
+
     app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
     app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
 
@@ -13,8 +15,6 @@ const router = (app) => {
 
     app.get('/maker', mid.requiresLogin, controllers.Domo.makerPage);
     app.post('/maker', mid.requiresLogin, controllers.Domo.makeDomo);
-
-    app.get('/delete', mid.requiresLogin, controllers.Domo.deleteDomos);
 
     app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };

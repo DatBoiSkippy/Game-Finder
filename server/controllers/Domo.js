@@ -1,5 +1,7 @@
 const models = require('../models');
 const Domo = models.Domo;
+const YOUTUBE_PLAYLIST_API = 'https://www.googleapis.com/youtube/v3/playlistItems';
+const YOUTUBE_PLAYLIST_ID = 'PLCGaK2yqfY2IrJYnOnlgdmzWVUFXsRQXA';
 
 const makerPage = async (req, res) => {
     return res.render('app');
@@ -22,7 +24,7 @@ const makeDomo = async (req, res) => {
         await newDomo.save();
         return res.status(201).json({ name: newDomo.name, age: newDomo.age, level: newDomo.level });
     } catch (err) {
-        console.log(err);
+        console.log(err); _PLAYL
         if (err.code === 11000) {
             return res.status(400).json({ error: 'Domo already exists!' });
         }
@@ -42,15 +44,16 @@ const getDomos = async (req, res) => {
     }
 };
 
-const deleteDomos = async (req, res) => {
+//Fetches the Youtube Data API which returns videos in a playlist given the playlist id, 
+const getYoutubeAPI = async (req, res) => {
     try {
-        const query = { owner: req.session.account._id };
-        console.log(query);
-        await Domo.collection('domos').deleteOne(query);
-        return res.status(201).json({ success: 'Deleted Domo!'});
-    } catch (err) {
+        const url = await fetch(`${YOUTUBE_PLAYLIST_API}?part=snippet&playlistId=${YOUTUBE_PLAYLIST_ID}&key=${process.env.YOUTUBE_API_KEY}`);
+        const data = await url.json();
+        return res.json( {videos: data});
+    }
+    catch (err) {
         console.log(err);
-        return res.status(500).json({ error: 'Error deleting domos!' });
+        return res.status(500).json({ error: 'Error retrieving API' });
     }
 };
 
@@ -58,5 +61,5 @@ module.exports = {
     makerPage,
     makeDomo,
     getDomos,
-    deleteDomos,
+    getYoutubeAPI,
 };

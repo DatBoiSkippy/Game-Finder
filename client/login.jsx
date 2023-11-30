@@ -51,7 +51,7 @@ const LoginWindow = (props) => {
             method="POST"
             className="mainForm"
         >
-            <label htmlFor="username">Username: </label>
+            <label htmlFor="username">Login: </label>
             <input id="user" type="text" name="username" placeholder="username" />
             <label htmlFor="pass">Password: </label>
             <input id="pass" type="password" name="pass" placeholder="password" />
@@ -81,6 +81,7 @@ const SignupWindow = (props) => {
 };
 
 const init = () => {
+
     const loginButton = document.getElementById('loginButton');
     const signupButton = document.getElementById('signupButton');
 
