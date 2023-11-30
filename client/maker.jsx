@@ -19,7 +19,7 @@ const handleDomo = (e) => {
     return false;
 }
 
-const DomoForm = (props) => {
+const domoForm = (props) => {
     return (
         <form id="domoForm"
             onSubmit={handleDomo}
@@ -37,6 +37,7 @@ const DomoForm = (props) => {
     )
 }
 
+//This will map the data from (currently {loadDomosFromServer})
 const PlaylistArray = (props) => {
 
     if (props.playlists.length === 0) {
@@ -48,11 +49,12 @@ const PlaylistArray = (props) => {
     }
 
     const playlistNodes = props.playlists.map(playlist => {
-        console.log(playlist.videos);
+        console.log(playlist.videos.length);
         return (
             <div key={playlist._id} className="domo">
                 <h3 className="domoName"> Name: {playlist.name} </h3>
-                <h3 className="domoAge"> ID: {playlist.playlist} </h3>
+                <h3 className="domoAge"> Number of videos: {playlist.videos.length} </h3>
+                <button onClick={(e) => loadPlayList(playlist.videos)}> Show Videos </button>
             </div>
         );
     });
@@ -64,6 +66,16 @@ const PlaylistArray = (props) => {
     );
 }
 
+const VideoArray = (props) => {
+    const videoNodes = props.map(videos => {
+        return (
+            <div className='videos'>
+                <img src={videos.snippet}></img>
+            </div>
+        )
+    })
+}
+
 const loadDomosFromServer = async () => {
     const response = await fetch('/setPlayList');
     const data = await response.json();
@@ -73,18 +85,13 @@ const loadDomosFromServer = async () => {
     );
 }
 
-const loadPlayList = async () => {
-    const response = await fetch('/getYoutubeAPI');
-    const data = await response.json();
-    ReactDOM.render(
-        //<VideoList videos={data.videos} />,
-        document.getElementById('domos')
-    );
+const loadPlayList = (videos) => {
+    console.log(videos);
 }
 
 const init = () => {
     ReactDOM.render(
-        <DomoForm />,
+        <domoForm />,
         document.getElementById('makeDomo')
     );
 
