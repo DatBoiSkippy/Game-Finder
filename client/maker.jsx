@@ -7,14 +7,14 @@ const handleDomo = (e) => {
     helper.hideError();
 
     const name = e.target.querySelector('#domoName').value;
-    const age = e.target.querySelector('#domoAge').value;
+    const id = e.target.querySelector('#domoAge').value;
 
-    if (!name || !age) {
+    if (!name || !id) {
         helper.handleError('All fields are required!');
         return false;
     }
 
-    helper.sendPost(e.target.action, {name, age}, loadDomosFromServer);
+    helper.sendPost(e.target.action, {name, id}, loadDomosFromServer);
 
     return false;
 }
@@ -28,50 +28,47 @@ const DomoForm = (props) => {
             method="POST"
             className="domoForm"
         >
-            <label htmlFor="name">PlayList ID: </label>
+            <label htmlFor="name">Playlist Name: </label>
             <input id="domoName" type="text" name="name" placeholder="Domo Name" />
-            <label htmlFor="age">Age: </label>
-            <input id="domoAge" type="number" min="0" name="age" />
+            <label htmlFor="age">Playlist Id: </label>
+            <input id="domoAge" type="text" name="id" />
             <input className="makeDomoSubmit" type="submit" value="Make Domo" />
         </form>
     )
 }
 
-const VideoList = (props) => {
-    if (props.domos.length === 0) {
+const PlaylistArray = (props) => {
+
+    if (props.playlists.length === 0) {
         return (
             <div className="domoList">
-                <h3 className="emptyDomo">No Videos Yet!</h3>
+                <h3 className="emptyDomo">No Playlists Yet!</h3>
             </div>
         );
     }
 
-    const domoNodes = props.domos.map(domo => {
+    const playlistNodes = props.playlists.map(playlist => {
+        console.log(playlist.videos);
         return (
-            <div key={domo._id} className="domo">
-                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-                <h3 className="domoName"> Name: {domo.name} </h3>
-                <h3 className="domoAge"> Age: {domo.age} </h3>
-                <h3 className="domoLevel"> Level: {domo.level} </h3>
-                <form id="deleteDomo" onSubmit={deleteDomo(domo._id)} name="deleteForm" action="/delete">
-                    <input className="delete" type="submit" value="Delete Domo" />
-                </form>
+            <div key={playlist._id} className="domo">
+                <h3 className="domoName"> Name: {playlist.name} </h3>
+                <h3 className="domoAge"> ID: {playlist.playlist} </h3>
             </div>
         );
     });
 
     return (
         <div className="domoList">
-            {domoNodes}
+            {playlistNodes}
         </div>
     );
 }
 
 const loadDomosFromServer = async () => {
-    const response = await fetch('/getDomos');
+    const response = await fetch('/setPlayList');
     const data = await response.json();
     ReactDOM.render(
-        <VideoList domos={data.domos} />,
+        <PlaylistArray playlists={data.playlists} />,
         document.getElementById('domos')
     );
 }
@@ -79,7 +76,10 @@ const loadDomosFromServer = async () => {
 const loadPlayList = async () => {
     const response = await fetch('/getYoutubeAPI');
     const data = await response.json();
-    console.log(data.videos);
+    ReactDOM.render(
+        //<VideoList videos={data.videos} />,
+        document.getElementById('domos')
+    );
 }
 
 const init = () => {
@@ -89,11 +89,12 @@ const init = () => {
     );
 
     ReactDOM.render(
-        <VideoList domos={[]} />,
+        <PlaylistArray playlists={[]} />,
         document.getElementById('domos')
     );
-
-    loadPlayList();
+    
+    loadDomosFromServer();
+    //loadPlayList();
 }
 
 window.onload = init;

@@ -3,22 +3,19 @@ const _ = require('underscore');
 
 const setName = (name) => _.escape(name).trim();
 
-const DomoSchema = new mongoose.Schema({
+const VideoSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
         trim: true,
         set: setName,
     },
-    age: {
-        type: Number,
-        min: 0,
+    playlist: {
+        type: String,
         required: true,
     },
-    level: {
-        type: Number,
-        min: 1,
-        required: true,
+    videos: {
+        type: Array,
     },
     owner: {
         type: mongoose.Schema.ObjectId,
@@ -31,11 +28,10 @@ const DomoSchema = new mongoose.Schema({
     },
 });
 
-DomoSchema.statics.toAPI = (doc) => ({
+VideoSchema.statics.toAPI = (doc) => ({
     name: doc.name,
-    age: doc.age,
-    level: doc.level,
+    id: doc.id,
 });
 
-const DomoModel = mongoose.model('Domo', DomoSchema);
-module.exports = DomoModel;
+const VideoModel = mongoose.model('Playlist', VideoSchema);
+module.exports = VideoModel;

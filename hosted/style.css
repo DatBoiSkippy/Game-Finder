@@ -206,7 +206,8 @@ nav:nth-child(1) {
     background-color: #55acee;
     padding: 10px;
     min-height:60px;
-    overflow: hidden;
+    text-align: left;
+    overflow:auto;
 }
 
 .domo:hover {
@@ -238,17 +239,17 @@ h3.domoName {
     float:left;
     width: 200px;
     font-weight: bold;
-    padding-left: 65px;
+    padding-left: 2px;
     font-size: 1.5em;
 }
 
 h3.domoAge {
-    float:right;
+    float:left;
     text-align: left;
     width: 100px;
     font-weight: bold;
-    padding-right: 40px;
-    font-size: 1.5em;
+    padding-left: 2px;
+    font-size: .5em;
 }
 
 .domo:first-child {

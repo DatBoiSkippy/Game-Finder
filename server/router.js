@@ -2,7 +2,7 @@ const controllers = require('./controllers');
 const mid = require('./middleware');
 
 const router = (app) => {
-    app.get('/getDomos', mid.requiresLogin, controllers.Domo.getDomos);
+    app.get('/setPlayList', mid.requiresLogin, controllers.Domo.setPlayList);
 
     app.get('/getYoutubeAPI', mid.requiresLogin, controllers.Domo.getYoutubeAPI);
 
