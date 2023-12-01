@@ -46,7 +46,8 @@ const makeDomo = async (req, res) => {
     }
 }
 
-//Queries information from the database, looking for the name, playlist ID, and how many videos there are in the playlist
+//Queries information from the database
+//looks for name, playlist ID, and how many videos there are in the playlist
 const setPlayList = async (req, res) => {
     try {
         const query = { owner: req.session.account._id };
