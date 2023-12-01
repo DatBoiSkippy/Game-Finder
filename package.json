@@ -19,7 +19,7 @@
     "Redis",
     "Login"
   ],
-  "author": "Cody Van De Mark / Austin Willoughby",
+  "author": "Alex Lam",
   "license": "Apache 2.0",
   "devDependencies": {
     "@babel/core": "^7.23.3",
@@ -50,7 +50,6 @@
     "mongoose": "^7.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "^5.0.1",
     "redis": "^4.6.5",
     "sass": "^1.69.5",
     "serve-favicon": "^2.5.0",
