@@ -19,7 +19,7 @@ const handleDomo = (e) => {
     return false;
 }
 
-const domoForm = (props) => {
+const DomoForm = (props) => {
     return (
         <form id="domoForm"
             onSubmit={handleDomo}
@@ -29,10 +29,10 @@ const domoForm = (props) => {
             className="domoForm"
         >
             <label htmlFor="name">Playlist Name: </label>
-            <input id="domoName" type="text" name="name" placeholder="Domo Name" />
+            <input id="domoName" type="text" name="name" placeholder="Playlist Title..." />
             <label htmlFor="age">Playlist Id: </label>
             <input id="domoAge" type="text" name="id" />
-            <input className="makeDomoSubmit" type="submit" value="Make Domo" />
+            <input className="makeDomoSubmit" type="submit" value="Submit Playlist" />
         </form>
     )
 }
@@ -54,7 +54,7 @@ const PlaylistArray = (props) => {
             <div key={playlist._id} className="domo">
                 <h3 className="domoName"> Name: {playlist.name} </h3>
                 <h3 className="domoAge"> Number of videos: {playlist.videos.length} </h3>
-                <button onClick={(e) => loadPlayList(playlist.videos)}> Show Videos </button>
+                <button onClick={(e) => loadVideos(playlist.videos)}> Show Videos </button>
             </div>
         );
     });
@@ -66,16 +66,27 @@ const PlaylistArray = (props) => {
     );
 }
 
+//Will map all the videos once the button loaded in from PlaylistArray is present
 const VideoArray = (props) => {
-    const videoNodes = props.map(videos => {
+    const videoNodes = props.video.map(videos => {
         return (
-            <div className='videos'>
-                <img src={videos.snippet}></img>
+            <div className='video'>
+                <p>Channel: {videos.snippet.videoOwnerChannelTitle}</p>
+                <p>Title: {videos.snippet.title}</p>
+                <p>Published At: {videos.snippet.publishedAt}</p>
+                <hr></hr>
             </div>
-        )
-    })
+        );
+    });
+
+    return (
+        <div className='videoList'>
+            {videoNodes}
+        </div>
+    )
 }
 
+//Modified to get information about a given playlist in the database, rename to {loadPlaylistsFromServer}
 const loadDomosFromServer = async () => {
     const response = await fetch('/setPlayList');
     const data = await response.json();
@@ -85,13 +96,17 @@ const loadDomosFromServer = async () => {
     );
 }
 
-const loadPlayList = (videos) => {
-    console.log(videos);
+//loads all the videos from a given playlist when a button is pressed
+const loadVideos = (videos) => {
+    ReactDOM.render(
+        <VideoArray video={videos} />,
+        document.getElementById('videos')
+    );    
 }
 
 const init = () => {
     ReactDOM.render(
-        <domoForm />,
+        <DomoForm />,
         document.getElementById('makeDomo')
     );
 
@@ -101,7 +116,6 @@ const init = () => {
     );
     
     loadDomosFromServer();
-    //loadPlayList();
 }
 
 window.onload = init;

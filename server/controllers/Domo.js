@@ -45,6 +45,7 @@ const makeDomo = async (req, res) => {
     }
 }
 
+//Queries information from the database, looking for the name, playlist ID, and how many videos there are in the playlist
 const setPlayList = async (req, res) => {
     try {
         const query = { owner: req.session.account._id };
@@ -57,24 +58,8 @@ const setPlayList = async (req, res) => {
     }
 };
 
-//Fetches the Youtube Data API which returns videos in a playlist given the playlist id, 
-const getYoutubeAPI = async (req, res) => {
-    try {
-        const query = { owner: req.session.account._id };
-        const id = await playlists.find(query).select('name playlist').lean().exec();
-        const url = await fetch(`${YOUTUBE_PLAYLIST_ITEMS_API}?part=snippet&playlistId=${YOUTUBE_PLAYLIST_ID}&key=${process.env.YOUTUBE_API_KEY}`);
-        const data = await url.json();
-        return res.json({ videos: data });
-    }
-    catch (err) {
-        console.log(err);
-        return res.status(500).json({ error: 'Error retrieving API' });
-    }
-};
-
 module.exports = {
     makerPage,
     makeDomo,
     setPlayList,
-    getYoutubeAPI,
 };

@@ -4,8 +4,6 @@ const mid = require('./middleware');
 const router = (app) => {
     app.get('/setPlayList', mid.requiresLogin, controllers.Domo.setPlayList);
 
-    app.get('/getYoutubeAPI', mid.requiresLogin, controllers.Domo.getYoutubeAPI);
-
     app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
     app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
 
