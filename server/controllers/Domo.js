@@ -1,8 +1,6 @@
 const models = require('../models');
-const playlists = models.Playlists;
-const YOUTUBE_PLAYLIST_ITEMS_API = 'https://www.googleapis.com/youtube/v3/playlistItems';
-const YOUTUBE_PLAYLIST_API = 'https://www.googleapis.com/youtube/v3/playlists';
-const YOUTUBE_PLAYLIST_ID = 'PLCGaK2yqfY2IrJYnOnlgdmzWVUFXsRQXA';
+const Playlists = models.Playlists;
+const YOUTUBE_API = 'https://www.googleapis.com/youtube/v3/playlistItems';
 
 const makerPage = async (req, res) => {
     return res.render('app');
@@ -16,7 +14,7 @@ const makeDomo = async (req, res) => {
     let playlistData = {};
 
     try {
-        const url = await fetch(`${YOUTUBE_PLAYLIST_ITEMS_API}?part=snippet&playlistId=${req.body.id}&key=${process.env.YOUTUBE_API_KEY}`);
+        const url = await fetch(`${YOUTUBE_API}?part=snippet&playlistId=${req.body.id}&key=${process.env.YOUTUBE_API_KEY}`);
         const data = await url.json();
         console.log(data);
         console.log(data.items);
@@ -33,9 +31,12 @@ const makeDomo = async (req, res) => {
     }
 
     try {
-        const addPlayList = new playlists(playlistData);
+        const addPlayList = new Playlists(playlistData);
         await addPlayList.save();
-        return res.status(201).json({ name: addPlayList.name, playlist: addPlayList.id, videos: addPlayList.videos });
+        return res.status(201).json({ 
+            name: addPlayList.name, 
+            playlist: addPlayList.id, 
+            videos: addPlayList.videos });
     } catch (err) {
         console.log(err);
         if (err.code === 11000) {
@@ -49,7 +50,7 @@ const makeDomo = async (req, res) => {
 const setPlayList = async (req, res) => {
     try {
         const query = { owner: req.session.account._id };
-        const docs = await playlists.find(query).select('name playlist videos').lean().exec();
+        const docs = await Playlists.find(query).select('name playlist videos').lean().exec();
         console.log(docs);
         return res.json({ playlists: docs });
     } catch (err) {
