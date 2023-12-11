@@ -19,14 +19,14 @@ const handleDomo = (e) => {
     return false;
 }
 
-const DomoForm = (props) => {
+const PlaylistForm = (props) => {
     return (
-        <form id="domoForm"
+        <form id="playlistForm"
             onSubmit={handleDomo}
-            name="domoForm"
+            name="playlistForm"
             action="/maker"
             method="POST"
-            className="domoForm"
+            className="playlistForm"
         >
             <label htmlFor="name">Playlist Name: </label>
             <input id="domoName" type="text" name="name" placeholder="Playlist Title..." />
@@ -49,7 +49,6 @@ const PlaylistArray = (props) => {
     }
 
     const playlistNodes = props.playlists.map(playlist => {
-        console.log(playlist);
         return (
             <div key={playlist._id} className="domo">
                 <h3 className="domoName"> Name: {playlist.name} </h3>
@@ -72,7 +71,7 @@ const VideoArray = (props) => {
                 <p>Channel: {videos.snippet.videoOwnerChannelTitle}</p>
                 <p>Title: {videos.snippet.title}</p>
                 <p>Published At: {videos.snippet.publishedAt}</p>
-                <button onclick={(e) => addVideos(props)}>Add to Playlist</button>
+                <button onclick={addVideos(videos)}>Add to Playlist</button>
             </div>
         );
     });
@@ -109,31 +108,33 @@ const loadVideos = (videos) => {
 }
 
 const addVideos = (videos) => {
-    ReactDOM.render(
-        <VideoArray video={videos} />,
-        document.getElementById('newPlaylist')
-    );
+    console.log(videos);
 }
 
-const NewPlaylist = (props) => {
+const Authorize = (props) => {
 
-    function handleSubmit(e) {
+    function handleAuth(e) {
         e.preventDefault();
         awaitGoogleAuth();
     }
 
     return (
-        <form onSubmit={handleSubmit} className='container'>
+        <form onSubmit={handleAuth} className='buttonContainer'>
             <button>Sign In</button>
         </form>
     );
 }
 
+const Execute = (props) => {
+    function handleExecute(e) {
+
+    }
+}
 
 const init = () => {
     ReactDOM.render(
-        <DomoForm />,
-        document.getElementById('makeDomo')
+        <PlaylistForm />,
+        document.getElementById('addPlaylist')
     );
 
     ReactDOM.render(
@@ -142,8 +143,8 @@ const init = () => {
     );
 
     ReactDOM.render(
-        <NewPlaylist />,
-        document.getElementById('newPlaylist')
+        <Authorize />,
+        document.getElementById('executeButtons')
     );
 
     loadDomosFromServer();

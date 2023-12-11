@@ -18,7 +18,7 @@ const getPlayList = async (req, res) => {
     let playlistData = {};
 
     try {
-        const url = await fetch(`${YOUTUBE_API}?part=snippet&playlistId=${req.body.id}&maxResults=10&key=${process.env.YOUTUBE_API_KEY}`);
+        const url = await fetch(`${YOUTUBE_API}?part=snippet&playlistId=${req.body.id}&maxResults=50&key=${process.env.YOUTUBE_API_KEY}`);
         const data = await url.json();
         playlistData = {
             name: req.body.name,

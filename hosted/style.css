@@ -62,7 +62,7 @@ nav:nth-child(1) {
     background-color: #66bdff;
 }
 
-.domoForm {
+.playlistForm {
     border: 2px solid #338acc;
     height: 35px;
     width: 1000px;
@@ -73,7 +73,7 @@ nav:nth-child(1) {
     border-top-right-radius: 4px;
 }
 
-.domoForm label {
+.playlistForm label {
     display: inline-block;
     width: 200px;
     margin-left: 10px;
@@ -220,13 +220,17 @@ nav:nth-child(1) {
 }
 
 #videos {
-    width: 50%;
+    width: 47%;
     min-width: 30%;
     border: 2px solid black;
     margin-right: 3px;
     border-radius: 4px;
 }
 
+.videoList {
+    overflow-y: scroll;
+    max-height: 300px;
+}
 #newPlaylist {
     border: 2px solid black;
     border-radius: 4px;
