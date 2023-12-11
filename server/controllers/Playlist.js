@@ -1,6 +1,6 @@
 const models = require('../models');
 const { google } = require('googleapis');
-const urlParse = require('url-parse');
+//const urlParse = require('url-parse');
 const Playlists = models.Playlists;
 const YOUTUBE_API = 'https://www.googleapis.com/youtube/v3/playlistItems';
 

@@ -6,7 +6,7 @@ const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const expressHandlebars = require('express-handlebars');
-const helmet = require('helmet');
+//const helmet = require('helmet');
 const session = require('express-session');
 const RedisStore = require('connect-redis').default;
 const redis = require('redis');
@@ -15,7 +15,7 @@ const router = require('./router.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
-const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/MusicSorter';
+const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/DomoMaker';
 
 mongoose.connect(dbURI).catch((err) => {
     if (err) {
@@ -33,7 +33,7 @@ redisClient.on('error', err => console.log('Redis Client Error', err));
 redisClient.connect().then(() => {
     const app = express();
 
-    app.use(helmet());
+    //app.use(helmet());
     app.use('/assets', express.static(path.resolve(`${__dirname}/../hosted/`)));
     app.use(favicon(`${__dirname}/../hosted/img/favicon.png`));
     app.use(compression());
@@ -45,7 +45,7 @@ redisClient.connect().then(() => {
         store: new RedisStore({
             client: redisClient,
         }),
-        secret: 'Music Bank',
+        secret: 'Domo Arigato',
         resave: false,
         saveUninitialized: false,
     }));

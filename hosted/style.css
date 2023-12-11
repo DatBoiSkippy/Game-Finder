@@ -216,7 +216,7 @@ nav:nth-child(1) {
 
 .videoList {
     overflow-y: scroll;
-    max-height: 300px;
+    max-height: 700px;
 }
 #newPlaylist {
     border: 2px solid black;

@@ -37,7 +37,6 @@ const PlaylistForm = (props) => {
     )
 }
 
-//This will map the data from (currently {loadDomosFromServer})
 const PlaylistArray = (props) => {
 
     if (props.playlists.length === 0) {
@@ -47,7 +46,6 @@ const PlaylistArray = (props) => {
             </div>
         );
     }
-    console.log(props.playlists);
     const playlistNodes = props.playlists.map(playlist => {
         return (
             <div key={playlist._id} className="playlist">
@@ -63,9 +61,17 @@ const PlaylistArray = (props) => {
     );
 }
 
+const NewPlaylistArray = (props) => {
+    console.log("WOW");
+    return (
+        <div id='newPlaylist'>
+            <p>Testing</p>
+        </div>
+    )
+}
+
 //Will map all the videos once the button loaded in from PlaylistArray is present
 const VideoArray = (props) => {
-    console.log(props);
     const videoNodes = props.video.map(videos => {
         return (
             <div className='video'>
@@ -110,6 +116,10 @@ const loadVideos = (videos) => {
 }
 
 const addVideos = (videos) => {
+    ReactDOM.render(
+        <NewPlaylistArray newPlaylist={videos} />,
+        document.getElementById('newPlaylist')
+    );
 }
 
 const Authorize = (props) => {
@@ -124,12 +134,6 @@ const Authorize = (props) => {
             <button>Sign In</button>
         </form>
     );
-}
-
-const Execute = (props) => {
-    function handleExecute(e) {
-
-    }
 }
 
 const init = () => {
