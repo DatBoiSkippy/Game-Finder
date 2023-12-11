@@ -43,7 +43,7 @@ const PlaylistArray = (props) => {
     if (props.playlists.length === 0) {
         return (
             <div>
-                <h3 className="emptyDomo">No Playlists Yet!</h3>
+                <h3 className="emptyPlaylistContainer">No Playlists Yet!</h3>
             </div>
         );
     }
@@ -51,8 +51,8 @@ const PlaylistArray = (props) => {
     const playlistNodes = props.playlists.map(playlist => {
         return (
             <div key={playlist._id} className="playlist">
-                <h3 className="domoName">{playlist.name}</h3>
-                <h3 className="domoAge"> No. of videos: {playlist.videos.length} </h3>
+                <h3 className="playlistName">{playlist.name}</h3>
+                <h3 className="numberOfVideos"> No. of videos: {playlist.videos.length} </h3>
                 <button onClick={(e) => loadVideos(playlist.videos)}> Show Videos </button>
             </div>
         );

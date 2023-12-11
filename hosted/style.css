@@ -258,7 +258,7 @@ img.domoFace {
     float: left;
 }
 
-h3.emptyDomo {
+h3.emptyPlaylistContainer {
     width: 500px;
     font-size: 1.5em;
     margin: 0 auto;
@@ -266,7 +266,7 @@ h3.emptyDomo {
     margin-top: 18px;
 }
 
-h3.domoName {
+h3.playlistName {
     text-align: center;
     width: 100%;
     font-weight: bold;
@@ -276,7 +276,7 @@ h3.domoName {
     overflow-x: hidden;
 }
 
-h3.domoAge {
+h3.numberOfVideos {
     text-align: center;
     width: 100%;
     font-weight: bold;
