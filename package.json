@@ -43,17 +43,21 @@
     "express": "^4.18.2",
     "express-handlebars": "^7.0.4",
     "express-session": "^1.17.3",
+    "gapi-script": "^1.2.0",
+    "googleapis": "^129.0.0",
     "gulp-eslint-new": "^1.8.4",
     "gulp-nodemon": "^2.2.1",
     "gulp-sass": "^5.1.0",
     "helmet": "^6.0.1",
     "mongoose": "^7.0.2",
+    "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "redis": "^4.6.5",
     "sass": "^1.69.5",
     "serve-favicon": "^2.5.0",
     "underscore": "^1.13.6",
+    "url-parse": "^1.5.10",
     "webpack-stream": "^7.0.0"
   }
 }

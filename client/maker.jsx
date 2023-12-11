@@ -14,7 +14,7 @@ const handleDomo = (e) => {
         return false;
     }
 
-    helper.sendPost(e.target.action, {name, id}, loadDomosFromServer);
+    helper.sendPost(e.target.action, { name, id }, loadDomosFromServer);
 
     return false;
 }
@@ -42,27 +42,25 @@ const PlaylistArray = (props) => {
 
     if (props.playlists.length === 0) {
         return (
-            <div className="domoList">
+            <div>
                 <h3 className="emptyDomo">No Playlists Yet!</h3>
             </div>
         );
     }
 
     const playlistNodes = props.playlists.map(playlist => {
-        console.log(playlist.videos.length);
+        console.log(playlist);
         return (
             <div key={playlist._id} className="domo">
                 <h3 className="domoName"> Name: {playlist.name} </h3>
-                <h3 className="domoAge"> Number of videos: {playlist.videos.length} </h3>
+                <h3 className="domoAge"> No. of videos: {playlist.videos.length} </h3>
                 <button onClick={(e) => loadVideos(playlist.videos)}> Show Videos </button>
             </div>
         );
     });
 
     return (
-        <div className="domoList">
-            {playlistNodes}
-        </div>
+        playlistNodes
     );
 }
 
@@ -74,7 +72,7 @@ const VideoArray = (props) => {
                 <p>Channel: {videos.snippet.videoOwnerChannelTitle}</p>
                 <p>Title: {videos.snippet.title}</p>
                 <p>Published At: {videos.snippet.publishedAt}</p>
-                <hr></hr>
+                <button onclick={(e) => addVideos(props)}>Add to Playlist</button>
             </div>
         );
     });
@@ -92,8 +90,14 @@ const loadDomosFromServer = async () => {
     const data = await response.json();
     ReactDOM.render(
         <PlaylistArray playlists={data.playlists} />,
-        document.getElementById('domos')
+        document.getElementById('showPlaylists')
     );
+}
+
+const awaitGoogleAuth = async () => {
+    const response = await fetch('/getAuth');
+    const data = await response.json();
+    console.log(data);
 }
 
 //loads all the videos from a given playlist when a button is pressed
@@ -101,8 +105,30 @@ const loadVideos = (videos) => {
     ReactDOM.render(
         <VideoArray video={videos} />,
         document.getElementById('videos')
-    );    
+    );
 }
+
+const addVideos = (videos) => {
+    ReactDOM.render(
+        <VideoArray video={videos} />,
+        document.getElementById('newPlaylist')
+    );
+}
+
+const NewPlaylist = (props) => {
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        awaitGoogleAuth();
+    }
+
+    return (
+        <form onSubmit={handleSubmit} className='container'>
+            <button>Sign In</button>
+        </form>
+    );
+}
+
 
 const init = () => {
     ReactDOM.render(
@@ -112,9 +138,14 @@ const init = () => {
 
     ReactDOM.render(
         <PlaylistArray playlists={[]} />,
-        document.getElementById('domos')
+        document.getElementById('showPlaylists')
     );
-    
+
+    ReactDOM.render(
+        <NewPlaylist />,
+        document.getElementById('newPlaylist')
+    );
+
     loadDomosFromServer();
 }
 
