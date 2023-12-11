@@ -47,11 +47,11 @@ const PlaylistArray = (props) => {
             </div>
         );
     }
-
+    console.log(props.playlists);
     const playlistNodes = props.playlists.map(playlist => {
         return (
-            <div key={playlist._id} className="domo">
-                <h3 className="domoName"> Name: {playlist.name} </h3>
+            <div key={playlist._id} className="playlist">
+                <h3 className="domoName">{playlist.name}</h3>
                 <h3 className="domoAge"> No. of videos: {playlist.videos.length} </h3>
                 <button onClick={(e) => loadVideos(playlist.videos)}> Show Videos </button>
             </div>
@@ -65,12 +65,14 @@ const PlaylistArray = (props) => {
 
 //Will map all the videos once the button loaded in from PlaylistArray is present
 const VideoArray = (props) => {
+    console.log(props);
     const videoNodes = props.video.map(videos => {
         return (
             <div className='video'>
                 <p>Channel: {videos.snippet.videoOwnerChannelTitle}</p>
                 <p>Title: {videos.snippet.title}</p>
                 <p>Published At: {videos.snippet.publishedAt}</p>
+                <img src={videos.snippet.thumbnails.default.url} alt='Thumbnail'></img>
                 <button onclick={addVideos(videos)}>Add to Playlist</button>
             </div>
         );
@@ -108,7 +110,6 @@ const loadVideos = (videos) => {
 }
 
 const addVideos = (videos) => {
-    console.log(videos);
 }
 
 const Authorize = (props) => {
