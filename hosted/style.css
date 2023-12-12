@@ -10,14 +10,26 @@ body {
 
 
 #instructions {
-    justify-content: center;
+    display: flex;
+    justify-content: left;
     text-align: center;
     font-weight: bold;
     color: white;
+    background-color: #202123;
     padding-bottom: 3px;
     padding-top: 2px;
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
 }
-
+#playlistHeader {
+    text-align: center;
+    justify-content: center;
+    color: white;
+    font-size: 30px;
+}
+#instructions span {
+    margin-right: 5px;
+}
 #instructionsPic {
     height: 20px;
 }
@@ -303,7 +315,8 @@ h3.emptyText {
     font-size: 1.5em;
     margin: 0 auto;
     text-align: center;
-    margin-top: 18px;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
 h3.playlistName {
