@@ -2,19 +2,19 @@ const helper = require('./helper.js');
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-const handleDomo = (e) => {
+const handleSubmit = (e) => {
     e.preventDefault();
     helper.hideError();
 
-    const name = e.target.querySelector('#domoName').value;
-    const id = e.target.querySelector('#domoAge').value;
+    const name = e.target.querySelector('#setName').value;
+    const id = e.target.querySelector('#setId').value;
 
     if (!name || !id) {
         helper.handleError('All fields are required!');
         return false;
     }
 
-    helper.sendPost(e.target.action, { name, id }, loadDomosFromServer);
+    helper.sendPost(e.target.action, { name, id }, loadPlaylists);
 
     return false;
 }
@@ -22,17 +22,17 @@ const handleDomo = (e) => {
 const PlaylistForm = (props) => {
     return (
         <form id="playlistForm"
-            onSubmit={handleDomo}
+            onSubmit={handleSubmit}
             name="playlistForm"
             action="/maker"
             method="POST"
             className="playlistForm"
         >
             <label htmlFor="name">Playlist Name: </label>
-            <input id="domoName" type="text" name="name" placeholder="Playlist Title..." />
+            <input id="setName" type="text" name="name" placeholder="Playlist Title..." />
             <label htmlFor="age">Playlist Id: </label>
-            <input id="domoAge" type="text" name="id" />
-            <input className="makeDomoSubmit" type="submit" value="Submit Playlist" />
+            <input id="setId" type="text" name="id" />
+            <input className="submit" type="submit" value="Submit Playlist" />
         </form>
     )
 }
@@ -41,8 +41,8 @@ const PlaylistArray = (props) => {
 
     if (props.playlists.length === 0) {
         return (
-            <div>
-                <h3 className="emptyPlaylistContainer">No Playlists Yet!</h3>
+            <div className="emptyContainer">
+                <h3 className='emptyText'>No Playlist Added Yet</h3>
             </div>
         );
     }
@@ -61,25 +61,58 @@ const PlaylistArray = (props) => {
     );
 }
 
+
 const NewPlaylistArray = (props) => {
-    console.log("WOW");
+
+    if (props.videosToAdd.length === 0) {
+        return (
+            <div className="emptyContainer">
+                <h3 className='emptyText'>No Videos Added Yet</h3>
+            </div>
+        );
+    }
+    const newVideoNodes = props.videosToAdd.map(videos => {
+        return (
+            <p>{videos}</p>
+        )
+    })
+
     return (
-        <div id='newPlaylist'>
-            <p>Testing</p>
+        <div className='newVideoList'>
+            {newVideoNodes}
         </div>
     )
 }
 
-//Will map all the videos once the button loaded in from PlaylistArray is present
+//Will map all the videos once the button loaded in from PlayltArray is present
 const VideoArray = (props) => {
+
+    if (props.video.length === 0) {
+        return (
+            <div className="emptyContainer">
+                <h3 className='emptyText'>No Playlist Rendered Yet</h3>
+            </div>
+        );
+    }
+    const [idArray, setShowNewDiv] = React.useState([]);
+
+    const newPlaylistAdd = (props) => {
+        const newArray = ([...idArray, props.snippet.resourceId.videoId]);
+        setShowNewDiv(newArray);
+        ReactDOM.render(
+            <NewPlaylistArray videosToAdd={newArray} />,
+            document.getElementById('newPlaylist')
+        );
+    };
+
     const videoNodes = props.video.map(videos => {
         return (
             <div className='video'>
-                <p>Channel: {videos.snippet.videoOwnerChannelTitle}</p>
-                <p>Title: {videos.snippet.title}</p>
-                <p>Published At: {videos.snippet.publishedAt}</p>
-                <img src={videos.snippet.thumbnails.default.url} alt='Thumbnail'></img>
-                <button onclick={addVideos(videos)}>Add to Playlist</button>
+                <p className="vidChannel">{videos.snippet.videoOwnerChannelTitle}</p>
+                <p className="vidTitle">Title: {videos.snippet.title}</p>
+                <p className="vidDate">Published At: {videos.snippet.publishedAt}</p>
+                <img src={videos.snippet.thumbnails.default.url} alt='Thumbnail' className="vidImg"></img>
+                <button onClick={() => newPlaylistAdd(videos)} className="vidButton">Add to Playlist</button>
             </div>
         );
     });
@@ -92,19 +125,13 @@ const VideoArray = (props) => {
 }
 
 //Modified to get information about a given playlist in the database, rename to {loadPlaylistsFromServer}
-const loadDomosFromServer = async () => {
+const loadPlaylists = async () => {
     const response = await fetch('/setPlayList');
     const data = await response.json();
     ReactDOM.render(
         <PlaylistArray playlists={data.playlists} />,
         document.getElementById('showPlaylists')
     );
-}
-
-const awaitGoogleAuth = async () => {
-    const response = await fetch('/getAuth');
-    const data = await response.json();
-    console.log(data);
 }
 
 //loads all the videos from a given playlist when a button is pressed
@@ -115,26 +142,6 @@ const loadVideos = (videos) => {
     );
 }
 
-const addVideos = (videos) => {
-    ReactDOM.render(
-        <NewPlaylistArray newPlaylist={videos} />,
-        document.getElementById('newPlaylist')
-    );
-}
-
-const Authorize = (props) => {
-
-    function handleAuth(e) {
-        e.preventDefault();
-        awaitGoogleAuth();
-    }
-
-    return (
-        <form onSubmit={handleAuth} className='buttonContainer'>
-            <button>Sign In</button>
-        </form>
-    );
-}
 
 const init = () => {
     ReactDOM.render(
@@ -143,16 +150,21 @@ const init = () => {
     );
 
     ReactDOM.render(
+        <VideoArray video={[]} />,
+        document.getElementById('videos')
+    );
+
+    ReactDOM.render(
         <PlaylistArray playlists={[]} />,
         document.getElementById('showPlaylists')
     );
 
     ReactDOM.render(
-        <Authorize />,
-        document.getElementById('executeButtons')
+        <NewPlaylistArray videosToAdd={[]} />,
+        document.getElementById('newPlaylist')
     );
 
-    loadDomosFromServer();
+    loadPlaylists();
 }
 
 window.onload = init;
