@@ -80,10 +80,27 @@ const SignupWindow = (props) => {
     );
 };
 
+const PremiumWindow = (props) => {
+    return (
+        <form id="premiumForm"
+            name='premiumForm'
+            action='/premium'
+            method='POST'
+        >
+            <p>Please add credit card information to access playlist creation on youtube rather than links</p>
+            <label htmlFor="username">Username: </label>
+            <input id="user" type="text" name="username" placeholder="username" />
+            <label htmlFor="pass">Card Number: </label>
+            <input id="cardNumber" type="text" name="card" placeholder="cardNumber" />
+        </form>
+    )
+}
+
 const init = () => {
 
     const loginButton = document.getElementById('loginButton');
     const signupButton = document.getElementById('signupButton');
+    const premiumButton = document.getElementById('premiumButton');
 
     loginButton.addEventListener('click', (e) => {
         e.preventDefault();
@@ -98,6 +115,14 @@ const init = () => {
             document.getElementById('content'));
         return false;
     });
+
+    premiumButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        ReactDOM.render(<PremiumWindow />,
+            document.getElementById('content'));
+        return false;
+    });
+
 
     ReactDOM.render(<LoginWindow />,
         document.getElementById('content'));

@@ -10,6 +10,10 @@ const logout = (req, res) => {
     res.redirect('/');
 };
 
+const premium = (req,res) => {
+    console.log(res.status(200).json({error: 'Upgrade Test'}));
+}
+
 const login = (req, res) => {
     const username = `${req.body.username}`;
     const pass = `${req.body.pass}`;
@@ -62,4 +66,5 @@ module.exports = {
     login,
     logout,
     signup,
+    premium,
 };
